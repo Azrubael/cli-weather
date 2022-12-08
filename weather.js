@@ -4,17 +4,21 @@
 // модуля с использованием NodeJS:
 
 import { getArgs } from './helpers/args.js'
+import { getWeather } from './services/api-service.js'
 import { printHelp, printSuccess, printError } from './services/log-service.js'
-import { saveKeyValue, getKeyValue } from './services/storage-service.js'
+import { saveKeyValue, TOKEN_DIC } from './services/storage-service.js'
 
 async function saveToken(token) {
+	if (!token.length) {
+		printError('Не передан токен')
+		return
+	}
 	try {
-		await saveKeyValue('token', token)
+		await saveKeyValue(TOKEN_DIC.token, token)
 		printSuccess('Токен сохранен')
 	} catch(e) {
 		printError(e.message)
 	}
-	
 }
 
 
@@ -38,6 +42,7 @@ function initCLI() {
 	}
 	// Иначе вывести погоду с текущими настройками
 		printSuccess('Вывод данных о погоде')
+		getWeather('Kyiv')
 }
 
 initCLI()
