@@ -4,10 +4,14 @@ import axios from 'axios'
 import { getKeyValue, TOKEN_DIC } from './storage-service.js'
 
 // метод получения погоды
-async function getWeather(city) {
+async function getWeather() {
    const token = await getKeyValue(TOKEN_DIC.token)
+   const city = await getKeyValue(TOKEN_DIC.city)
    if (!token) {
       throw new Error('Не задан ключ API, задайте его через команду -t [API_KEY]')
+   }
+   if (!city) {
+      throw new Error('Не задан город, задайте его через команду -s [CITY]')
    }
    const { data } = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
       params: {

@@ -21,15 +21,28 @@ async function saveToken(token) {
 	}
 }
 
-async function getForecast(city) {
+async function saveCity(city) {
+	if (!city.length) {
+		printError('Не передан город')
+		return
+	}
 	try {
-			const weather = await getWeather(city)
+		await saveKeyValue(TOKEN_DIC.city, city)
+		printSuccess('Город сохранен')
+	} catch(e) {
+		printError(e.message)
+	}
+}
+
+async function getForecast() {
+	try {
+			const weather = await getWeather()
 	console.log(weather)
 	}	catch(e) {
 		if(e?.response?.status == 404) {
 			printError('Неверно указан город')
 		} else if(e?.response?.status == 401) {
-			printError('Неверно указан token')
+			printError('Неверно указан токен')
 		} else {
 			printError(e.message)
 		}
@@ -46,7 +59,8 @@ function initCLI() {
 	}
 	if (args.s) {
 		// Сохранить город
-	
+		console.log('Saved CITY: ', args.s)
+		return saveCity(args.s)
 	}
 	if (args.t) {
 		// Сохранить токен
@@ -54,8 +68,7 @@ function initCLI() {
 	}
 	// Иначе вывести погоду с текущими настройками
 		printSuccess('Вывод данных о погоде')
-		getForecast('Kyiv')
-		// getForecast(process.env.CITY)
+		getForecast()
 }
 
 initCLI()

@@ -1,6 +1,6 @@
 import { homedir } from 'os'
 // импортируем библиотеку для кроссплатформенного разрешения путей
-import { join, basename, dirname, relative, isAbsolute } from 'path'  
+import { join } from 'path'  
 import { promises } from 'fs'
 
 const filePath = join(homedir(), './weather-data.json')

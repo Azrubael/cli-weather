@@ -1,6 +1,5 @@
 // утилита для вывода в командную сроку
 import cc from 'chalk'
-//import ddent from 'ddent-js' - библиотека для управления отступами
 
 function printError(err)  {
    console.log(cc.bgRed(' ERROR  ') + err) 
