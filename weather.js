@@ -21,12 +21,24 @@ async function saveToken(token) {
 	}
 }
 
+async function getForecast(city) {
+	try {
+			const weather = await getWeather(city)
+	console.log(weather)
+	}	catch(e) {
+		if(e?.response?.status == 404) {
+			printError('Неверно указан город')
+		} else if(e?.response?.status == 401) {
+			printError('Неверно указан token')
+		} else {
+			printError(e.message)
+		}
+	}
+	
+}
 
 function initCLI() {
 	const args = getArgs(process.argv)
-
-	// листинг актуальных аргументов командной строки
-	// console.log('weather Application started:')
 	// console.log(args)
 	if (args.h) {
 		// Вывод help
@@ -42,7 +54,8 @@ function initCLI() {
 	}
 	// Иначе вывести погоду с текущими настройками
 		printSuccess('Вывод данных о погоде')
-		getWeather('Kyiv')
+		getForecast('Kyiv')
+		// getForecast(process.env.CITY)
 }
 
 initCLI()

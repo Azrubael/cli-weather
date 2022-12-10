@@ -18,13 +18,6 @@ async function saveKeyValue(key, value) {
    }
    data[key] = value
    await promises.writeFile(filePath, JSON.stringify(data))
-
-   /* примеры обработки путей к файлу методами 'path'
-   console.log(basename(filePath))     // вывод последней части пути
-   console.log(dirname(filePath))      // вывод последней части пути
-   console.log(relative(filePath, dirname(filePath))) // относительный путь
-   console.log(isAbsolute(filePath))
-   */
 }
 
 // получение 'value' по 'key', если файл существует
