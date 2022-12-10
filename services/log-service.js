@@ -17,4 +17,14 @@ function printHelp()  {
       '\t-t [API_KEY]   - добавление токена \n') 
 }
 
-export { printError, printSuccess, printHelp }
+function printWeather(res, icon)  {
+   console.log( cc.bgBlueBright(' WEATHER FORECAST  \n') +
+      '\tПогода в городе ' + res.name + '\n' +
+      '\t' + icon + '\t' + res.weather[0].description + '\n' +
+      '\tТемпература :' + res.main.temp + '\n' +
+      '\tОщущается как :' + res.main.feels_like + '\n' +
+      '\tВлажность :' + res.main.humidity + '\n' +
+      '\tСкорость ветра :' + res.wind.speed + '\n' ) 
+}
+
+export { printError, printSuccess, printHelp, printWeather }

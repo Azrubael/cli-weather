@@ -4,8 +4,8 @@
 // модуля с использованием NodeJS:
 
 import { getArgs } from './helpers/args.js'
-import { getWeather } from './services/api-service.js'
-import { printHelp, printSuccess, printError } from './services/log-service.js'
+import { getWeather, getIcon } from './services/api-service.js'
+import { printHelp, printSuccess, printError, printWeather } from './services/log-service.js'
 import { saveKeyValue, TOKEN_DIC } from './services/storage-service.js'
 
 async function saveToken(token) {
@@ -36,8 +36,9 @@ async function saveCity(city) {
 
 async function getForecast() {
 	try {
-			const weather = await getWeather()
-	console.log(weather)
+		const weather = await getWeather()
+		// console.log(weather)
+		printWeather(weather, getIcon(weather.weather[0].icon))
 	}	catch(e) {
 		if(e?.response?.status == 404) {
 			printError('Неверно указан город')
@@ -55,7 +56,7 @@ function initCLI() {
 	// console.log(args)
 	if (args.h) {
 		// Вывод help
-		printHelp()
+		return printHelp()
 	}
 	if (args.s) {
 		// Сохранить город
@@ -64,11 +65,12 @@ function initCLI() {
 	}
 	if (args.t) {
 		// Сохранить токен
+		console.log('Saved API_KEY: ', args.t)
 		return saveToken(args.t)
 	}
 	// Иначе вывести погоду с текущими настройками
 		printSuccess('Вывод данных о погоде')
-		getForecast()
+		return getForecast()
 }
 
 initCLI()
